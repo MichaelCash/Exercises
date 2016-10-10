@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CarTax.Dto;
-using System.ComponentModel;
 
 namespace CarTax.UnitTest
 {
@@ -36,6 +30,14 @@ namespace CarTax.UnitTest
             var car = new CarInput { Name = "Jeep wrangler", CarFrom = Area.Usa, Capacity = 3.6, Price = 36995 };
             double expectedPrice = 3700091.92;
             Assert.AreEqual(expectedPrice, cal.GetUserPrice(car), delta);
+        }
+
+        public void EuroCar_Capacity_Greater_Than_6_Test()
+        {
+            var cal = new TaxCalculator();
+            var euroCar = new CarInput { Name = "Benz G65", CarFrom = Area.Euro, Capacity = 16.0, Price = 217900 };
+            double expectedPrice = 34410768;
+            Assert.AreEqual(expectedPrice, cal.GetUserPrice(euroCar), delta);
         }
 
         [TestMethod]

@@ -1,6 +1,4 @@
-﻿using CarTax.Dto;
-using CarTax.Validation;
-namespace CarTax.Car
+﻿namespace CarTax.Car
 {
     public class OtherCar : BaseCar
     {

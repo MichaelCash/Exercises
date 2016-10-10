@@ -1,5 +1,4 @@
 ﻿using System;
-using CarTax.Dto;
 
 namespace CarTax.Car
 {

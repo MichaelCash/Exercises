@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CarTax.Car;
 using CarTax.Dto;
-using CarTax.Validation;
 namespace CarTax
 {
     class Program
