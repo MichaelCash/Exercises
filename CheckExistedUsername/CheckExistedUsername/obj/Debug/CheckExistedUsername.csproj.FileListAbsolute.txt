@@ -1,0 +1,6 @@
+D:\Working\Exercises\CheckExistedUsername\CheckExistedUsername\bin\Debug\CheckExistedUsername.exe.config
+D:\Working\Exercises\CheckExistedUsername\CheckExistedUsername\obj\Debug\CheckExistedUsername.csprojResolveAssemblyReference.cache
+D:\Working\Exercises\CheckExistedUsername\CheckExistedUsername\bin\Debug\CheckExistedUsername.exe
+D:\Working\Exercises\CheckExistedUsername\CheckExistedUsername\bin\Debug\CheckExistedUsername.pdb
+D:\Working\Exercises\CheckExistedUsername\CheckExistedUsername\obj\Debug\CheckExistedUsername.exe
+D:\Working\Exercises\CheckExistedUsername\CheckExistedUsername\obj\Debug\CheckExistedUsername.pdb
