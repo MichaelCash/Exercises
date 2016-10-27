@@ -145,10 +145,10 @@ namespace TransferMoney.Test
         }
         // Test Transfer money with manual thread
 
-        private TransferStatus Transfer(string from, string to, decimal amount, int timeOut = 0, bool isOrder = true) {
+        private TransferStatus Transfer(string from, string to, decimal amount, int deplyTimme = 0, bool isOrder = true) {
             var src = AccountService.GetAccount(from);
             var des = AccountService.GetAccount(to);
-            return TransactionService.Transfer(src, des, amount, timeOut, isOrder);
+            return TransactionService.Transfer(src, des, amount, deplyTimme, isOrder);
         }
 
     }
