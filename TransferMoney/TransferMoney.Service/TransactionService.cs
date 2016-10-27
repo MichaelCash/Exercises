@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using TransferMoney.Service.Data;
 
@@ -11,45 +10,36 @@ namespace TransferMoney.Service
 
         public static TransferStatus Transfer(Account from, Account to, decimal amount, int delayTime = 0, bool isOrder = true)
         {
-
             if (LockOrderAccounts(from, to, delayTime, isOrder))
             {
                 var result = CompletedTransfer(from, to, amount);
                 UnLockAccounts(from, to);
                 return result ? TransferStatus.Successful : TransferStatus.Fail;
             }
-
             return TransferStatus.DeadLock;
         }
 
         private static bool CompletedTransfer(Account src, Account des, decimal amount)
         {
-            try
+            using (var context = new TMEntities1())
             {
-                using (var context = new TMEntities1())
+                using (var dbContextTransaction = context.Database.BeginTransaction())
                 {
-                    var entities = (from p in context.Accounts
-                                    where (p.Name.Equals(src.Name))
-                                    || (p.Name.Equals(des.Name) )
-                                    select p).ToList();
-                    if (entities.Count == 2)
+                    try
                     {
-                        var from = entities.FirstOrDefault(p => p.Name.Equals(src.Name));
-                        var to = entities.FirstOrDefault(p => p.Name.Equals(des.Name));
-                        if (from.Balance >= amount)
+                        if (AccountService.Widthraw(src, amount, context))
                         {
-                            from.Balance -= amount;
-                            to.Balance += amount;
+                            AccountService.Deposit(des, amount, context);
                             context.SaveChanges();
+                            dbContextTransaction.Commit();
                             return true;
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        dbContextTransaction.Rollback();
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                int a = 0;
-                // fail, return false;
             }
             return false;
         }
@@ -79,10 +69,12 @@ namespace TransferMoney.Service
             if (Monitor.TryEnter(from, timeout))
             {
                 Console.WriteLine("Lock " + from.Name);
+                // Waiting another thread lock From Account
                 Thread.Sleep(delayTime);
                 if (Monitor.TryEnter(to, timeout))
                 {
                     Console.WriteLine("Lock " + to.Name);
+                    // Waiting another thead lock To Accmount.
                     Thread.Sleep(delayTime);
                     return true;
                 }

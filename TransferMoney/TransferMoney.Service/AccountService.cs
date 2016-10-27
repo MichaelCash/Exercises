@@ -7,41 +7,29 @@ namespace TransferMoney.Service
 {
     public class AccountService
     {
-        public static bool ChangeBalance(Account account, decimal amount)
+        public static bool ChangeBalance(Account account, decimal amount, TMEntities1 context)
         {
-            using (var context = new TMEntities1())
-            {
                 var entity = context.Accounts.FirstOrDefault(p => p.AccountId == account.AccountId);
                 if (entity != null)
                 {
                     if (entity.Balance >= amount * -1)
                     {
                         entity.Balance += amount;
-                        try
-                        {
-                            context.SaveChanges();
-                            return false;
-                        }
-                        catch (Exception ex)
-                        {
-                            int a = 0;
-                            // save fail
-                        }
+                        return true;
                     }
                 }
                 return false;
-            }
         }
 
-        public static bool Widthraw(Account account, decimal amount)
+        public static bool Widthraw(Account account, decimal amount, TMEntities1 context)
         {
             amount = amount * -1;
-            return ChangeBalance(account, amount);
+            return ChangeBalance(account, amount, context);
         }
 
-        public static bool Deposit(Account account, decimal amount)
+        public static bool Deposit(Account account, decimal amount, TMEntities1 context)
         {
-            return ChangeBalance(account, amount);
+            return ChangeBalance(account, amount, context);
         }
 
         public static List<Account> GetAccounts()

@@ -40,7 +40,8 @@ namespace TransferMoney.Test
         [TestMethod]
         public void TransferDeadLockTest()
         {
-
+            // Using Nagative approach to prove: Lock Order => Never deadlock.
+            //A = true, !A = false, it means Lock Order => no deadlock, wihout lock order => must deadlock.
             AccountService.Save(new Account() { Name = "Michael", Balance = 1000 });
             AccountService.Save(new Account() { Name = "Thor", Balance = 2000 });
 
@@ -57,6 +58,8 @@ namespace TransferMoney.Test
             // waiting util thread done.
             tid1.Join();
             tid2.Join();
+
+            //Must deadlock
             Assert.AreEqual(result1, TransferStatus.DeadLock);
             Assert.AreEqual(result2, TransferStatus.DeadLock);
         }
