@@ -74,25 +74,20 @@ namespace TransferMoney.Test
             AccountService.Save(new Account() { Name = "Account1", Number = "11111", Balance = balance });
             AccountService.Save(new Account() { Name = "Account2", Number = "22222", Balance = balance });
 
-            int numbers = 20;
+            int numbers = 10;
 
             // Test mutli thread parallel
             Parallel.For(0, numbers, index =>
             {
-                // first time
                 Transfer("Account1", "Account2", 10);
                 Transfer("Account2", "Account1", 20);
-
-                // second time
-                Transfer("Account1", "Account2", 20);
-                Transfer("Account2", "Account1", 30);
             });
 
             var a1 = AccountService.GetAccountFromDB("Account1");
             var a2 = AccountService.GetAccountFromDB("Account2");
 
-            Assert.AreEqual(a1.Balance, balance + 2 * (numbers * 10));
-            Assert.AreEqual(a2.Balance, balance - 2 * (numbers * 10));
+            Assert.AreEqual(a1.Balance, balance + (numbers * 10));
+            Assert.AreEqual(a2.Balance, balance - (numbers * 10));
         }
 
         [TestMethod]
